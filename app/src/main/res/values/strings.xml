@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Real Calculation</string>
+    <string name="basic_calculation">Basics Calculator</string>
+    <string name="scientific_calci">Sci Calculator</string>
+    <string name="split_app">split_bill</string>
+    <string name="Realcalculation">Real Calculation</string>
+    <string name="clear">clear</string>
+    <string name="backspace">backspace</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="divide">devide</string>
+    <string name="square">square</string>
+    <string name="sqrt">sqrt</string>
+    <string name="openBracket">openbracket</string>
+    <string name="closeBracket">closeBracket</string>
+    <string name="history">history</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_0">0</string>
+    <string name="_6">6</string>
+    <string name="del">delete</string>
+    <string name="devide">devide</string>
+    <string name="split">split</string>
+</resources>
