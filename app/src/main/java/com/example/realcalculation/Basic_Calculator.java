@@ -1,16 +1,21 @@
 package com.example.realcalculation;
+
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 public class Basic_Calculator extends AppCompatActivity {
 
     @BindView(R.id.button0) Button button0;
@@ -34,20 +39,27 @@ public class Basic_Calculator extends AppCompatActivity {
         @BindView(R.id.buttoneql)Button buttoneql;
         @BindView(R.id.et1) TextView et1;
         @BindView(R.id.et2)TextView et2;
+        @BindView(R.id.buttonhistory)Button buttonhistory;
          int count=0;
          String expression="";
          String text="";
          Double result=0.0;
-        @BindView(R.id.buttonhistory) Button buttonhistory;
+    DbManager db=new DbManager(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.basic_calci);
-
+        DbManager db=new DbManager(this);
         ButterKnife.bind(this);
+        viewall();
+
     }
+
         @SuppressLint("SetTextI18n")
         public void onClick (View v){
+
+
             switch (v.getId()) {
                 case R.id.button0:
                     et2.setText(et2.getText() + "0");
@@ -95,6 +107,7 @@ public class Basic_Calculator extends AppCompatActivity {
                         count++;
                     }
                     break;
+
                 case R.id.buttondel:
 
                     text = et2.getText().toString();
@@ -174,17 +187,29 @@ public class Basic_Calculator extends AppCompatActivity {
                     et1.setText("");
                     if (expression.length() == 0)
                         expression = "0.0";
-                    DoubleEvaluator evaluator = new DoubleEvaluator();
+                    //DoubleEvaluator evaluator = new DoubleEvaluator();
                     try {
                         //evaluate the expression
                         result = new DoubleEvaluator().evaluate(expression);
                         //insert expression and result in sqlite database if expression is valid and not 0.0
-                        if (!expression.equals("0.0"))
-                            //dbHelper.insert("STANDARD",expression+" = "+result);
-                            et1.setText(expression + "=");
-                        et2.setText(result + "");
-                    } catch (Exception e) {
-                        et2.setText("Invalid Expression");
+                        if (!expression.equals("0.0")){
+                            et1.setText(expression );
+                            DbManager db=new DbManager(this);
+                            et2.setText("="+result+"");
+                            String ans=et1.getText().toString();
+                            String esp=et2.getText().toString();
+                           boolean res1 = db.addRecord(ans,esp);
+                            if(res1){
+                                Toast.makeText(Basic_Calculator.this,"Data inserted",Toast.LENGTH_SHORT).show();
+
+                            }
+                            else{
+                                Toast.makeText(Basic_Calculator.this,"Data not inserted",Toast.LENGTH_SHORT).show();
+                            }
+
+                    } }
+                    catch (Exception e) {
+                        et2.setText("");
                         et1.setText("");
                         expression = "";
                         e.printStackTrace();
@@ -212,5 +237,48 @@ public class Basic_Calculator extends AppCompatActivity {
                 }
             }
         }
+    public void viewall(){
+        buttonhistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Cursor res = db.fetchAll();
+                StringBuffer buffer = new StringBuffer();
+                if (res.getCount() == 0) {
+                    show_message("cannot fetch","ohkk");
+                    Toast.makeText(Basic_Calculator.this, "nothing to display", Toast.LENGTH_SHORT).show();
+                } else
+
+                {
+                    while (res.moveToNext()) {
+                        buffer.append(res.getString(0));
+                        buffer.append("\n");
+                        buffer.append(res.getString(1));
+                        buffer.append("\n");
+
+                    }
+
+                    show_message(buffer.toString(), "endl");
+                }
+
+            }
+        });
     }
+
+
+
+
+
+
+    public void show_message(String buffer,String result){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Basic_Calculator.this);
+        builder.setCancelable(true);
+        builder.setTitle("HISTORY");
+        builder.setMessage(buffer);
+        builder.show();
+
+        }
+
+        }
+
 
