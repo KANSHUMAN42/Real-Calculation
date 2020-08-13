@@ -15,6 +15,5 @@ it has
 
 
 
-
-<img src="screenshot/device-2020-04-16-011701.png" height="600" weight="400">                 <img src="screenshot/device-2020-04-16-011744.png" height="600" weight="400">
+                <img src="device-2020-08-13-152315.png" height="600" weight="400">
 
