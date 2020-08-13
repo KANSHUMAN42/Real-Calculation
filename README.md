@@ -12,8 +12,5 @@ it has
 
 
 3.split bill
-
-
-
-                <img src="device-2020-08-13-152315.png" height="600" weight="400">
+     <img src="/device-2020-08-13-152315.png" height="600" weight="400"><img src="/device-2020-04-16-011744.png" height="600" weight="400">
 
